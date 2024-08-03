@@ -19,4 +19,6 @@ void DF_Playback (void);
 
 void Check_Key (void);
 
+void test_case_1(void);
+
 #endif /* INC_DFPLAYER_MINI_H_ */
