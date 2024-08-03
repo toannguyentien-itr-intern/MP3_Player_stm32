@@ -9,6 +9,8 @@
 #include "stm32f1xx_hal.h"
 #include "stdio.h"
 
+// Ading an unknown comment
+
 extern UART_HandleTypeDef huart1;
 #define DF_UART &huart1
 
