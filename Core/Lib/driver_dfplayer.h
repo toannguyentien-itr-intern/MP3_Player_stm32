@@ -27,6 +27,13 @@ typedef struct
 
 } packet_dfplayer_data_t;
 
+typedef enum
+{
+	default_mode = 0,
+	repeat_mode,
+	random_mode
+} dfplayer_playback_mode_t;
+
 
 void test();
 

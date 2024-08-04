@@ -18,38 +18,44 @@
 
 
 // DFPlayer commands
-#define DFPLAYER_CMD_PLAY_NEXT     0x01
+//#define DFPLAYER_CMD_PLAY_NEXT     0x01
 
-#define DFPLAYER_CMD_PLAY_PREV     0x02
+//#define DFPLAYER_CMD_PLAY_PREV     0x02
 
 #define DFPLAYER_CMD_PLAY_TRACK    0x03
 
 #define DFPLAYER_CMD_SET_VOL       0x06
 
-#define DFPLAYER_CMD_SET_EQ        0x07
+//#define DFPLAYER_CMD_SET_EQ        0x07
 
-#define DFPLAYER_CMD_PLAYBACK	   0x08
+#define DFPLAYER_CMD_RANDOM_MODE 	0x08
 
 #define DFPLAYER_CMD_PLAYBACK_SRC  0x09
 
-#define DFPLAYER_CMD_STANDBY_MODE  0x0A
+//#define DFPLAYER_CMD_STANDBY_MODE  0x0A
 
-#define DFPLAYER_CMD_NORMAL_MODE   0x0B
+//#define DFPLAYER_CMD_NORMAL_MODE   0x0B
 
 #define DFPLAYER_CMD_RESET         0x0C
 
-#define DFPLAYER_CMD_PLAY          0x0D
+#define DFPLAYER_CMD_PLAY_CONTINUE 0x0D
 
-#define DFPLAYER_CMD_PAUSE         0x0E
+#define DFPLAYER_CMD_PLAY_PAUSE    0x0E
 
-#define DFPLAYER_CMD_REPEAT_PLAY   0x11
+#define DFPLAYER_CMD_PLAYBACK_MODE   0x11
 
 
 
 
 	// CONST PARAMETER
-#define NONE_PARAMETER			0x0000
+#define NONE_PARAMETER			0x00
 #define TF_CARD_PARAMETER		0x02		// Micro SD card
+
+
+#define NORMAL_MODE_PARAMETER	0x00
+#define REPEAT_MODE_PARAMETER	0x01
+#define	RANDOM_MODE_PARAMETER	0x03
+
 
 
 
@@ -100,19 +106,33 @@ void dfplayer_track_play (uint16_t ordinal_song_number)
 
 void dfplayer_track_pause (void)
 {
-	dfplayer_send_command(DFPLAYER_CMD_PAUSE, NONE_PARAMETER);
+	dfplayer_send_command(DFPLAYER_CMD_PLAY_PAUSE, NONE_PARAMETER);
 }
 
 void dfplayer_track_playback (void)
 {
-	dfplayer_send_command(DFPLAYER_CMD_PLAYBACK, NONE_PARAMETER);
+	dfplayer_send_command(DFPLAYER_CMD_PLAY_CONTINUE, NONE_PARAMETER);
 }
 
+void dfplayer_normal_mode_play (void)
+{
+	dfplayer_send_command(DFPLAYER_CMD_PLAYBACK_MODE, NORMAL_MODE_PARAMETER);
+}
+
+void dfplayer_repeat_mode_play (void)
+{
+	dfplayer_send_command(DFPLAYER_CMD_PLAYBACK_MODE, NORMAL_MODE_PARAMETER);
+}
+
+void dfplayer_random_mode_play (void)
+{
+	dfplayer_send_command(DFPLAYER_CMD_RANDOM_MODE, RANDOM_MODE_PARAMETER);
+}
 
 void dfplayer_init ()
 {
-//		// reset module
-//	dfplayer_send_command (DFPLAYER_CMD_RESET, NONE_PARAMETER);
+		// reset module
+	dfplayer_send_command (DFPLAYER_CMD_RESET, NONE_PARAMETER);
 
 		// Could adding the pause command to make sure there are stop play song
 	dfplayer_track_pause();
@@ -133,15 +153,11 @@ void test()
 
 	bsp_delay(3000);
 
-	dfplayer_track_play(2);
+	dfplayer_track_pause();
 
-	bsp_delay(3000);
+	bsp_delay(5000);
 
-	dfplayer_track_play(3);
-
-	bsp_delay(3000);
-
-	dfplayer_track_play(4);
+	dfplayer_track_playback();
 }
 
 
