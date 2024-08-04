@@ -25,7 +25,7 @@ typedef struct
 	uint8_t		check_sum_low;
 	uint8_t 	end_byte;
 
-} packet_dfrplayer_data_t;
+} packet_dfplayer_data_t;
 
 
 void test();
