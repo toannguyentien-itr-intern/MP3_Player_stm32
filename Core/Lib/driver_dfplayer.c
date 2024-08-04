@@ -24,15 +24,11 @@
 
 #define DFPLAYER_CMD_PLAY_TRACK    0x03
 
-#define DFPLAYER_CMD_VOL_UP        0x04
-
-#define DFPLAYER_CMD_VOL_DOWN      0x05
-
 #define DFPLAYER_CMD_SET_VOL       0x06
 
 #define DFPLAYER_CMD_SET_EQ        0x07
 
-#define DFPLAYER_CMD_PLAYBACK_MODE 0x08
+#define DFPLAYER_CMD_PLAYBACK	   0x08
 
 #define DFPLAYER_CMD_PLAYBACK_SRC  0x09
 
@@ -87,7 +83,6 @@ static void dfplayer_send_command (uint8_t id_command, uint16_t para_byte)
 
 	df_player.para_byte_low = para_byte & 0x00FF;
 
-
 	uint16_t temp_checksum = dfplayer_cal_checksum(id_command, para_byte);
 
 	df_player.check_sum_high = (temp_checksum >> 8) & 0x00FF;
@@ -95,25 +90,32 @@ static void dfplayer_send_command (uint8_t id_command, uint16_t para_byte)
 	df_player.check_sum_low = temp_checksum & 0x00FF;
 
 	bsp_transmit_data(DFPLAYER_COMMAND_TRANSMIT, DFPLAYER_COMMAND_SIZE);
-
 }
 
 
-void dfplayer_play_song (uint16_t ordinal_song_number)
+void dfplayer_track_play (uint16_t ordinal_song_number)
 {
 	dfplayer_send_command (DFPLAYER_CMD_PLAY_TRACK, ordinal_song_number);
 }
 
-void dfplayer_pause_song ()
+void dfplayer_track_pause (void)
 {
+	dfplayer_send_command(DFPLAYER_CMD_PAUSE, NONE_PARAMETER);
+}
 
+void dfplayer_track_playback (void)
+{
+	dfplayer_send_command(DFPLAYER_CMD_PLAYBACK, NONE_PARAMETER);
 }
 
 
 void dfplayer_init ()
 {
-//		// Pause the song
-//	dfrplayer_send_command
+//		// reset module
+//	dfplayer_send_command (DFPLAYER_CMD_RESET, NONE_PARAMETER);
+
+		// Could adding the pause command to make sure there are stop play song
+	dfplayer_track_pause();
 
 		// initial the playback source: Micro SD card (TF card)
 	dfplayer_send_command (DFPLAYER_CMD_PLAYBACK_SRC, TF_CARD_PARAMETER);
@@ -127,23 +129,19 @@ void test()
 {
 	dfplayer_init();
 
-	dfplayer_play_song(1);
+	dfplayer_track_play(1);
 
-	bsp_delay(5000);
+	bsp_delay(3000);
 
+	dfplayer_track_play(2);
 
+	bsp_delay(3000);
 
-//	dfrplayer_play_song(2);
-//
-//	bsp_delay(5000);
-//
-//	dfrplayer_play_song(3);
-//
-//	bsp_delay(5000);
-//
-//	dfrplayer_play_song(4);
+	dfplayer_track_play(3);
 
+	bsp_delay(3000);
 
+	dfplayer_track_play(4);
 }
 
 
