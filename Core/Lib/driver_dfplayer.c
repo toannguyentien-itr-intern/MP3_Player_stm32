@@ -109,7 +109,7 @@ void dfplayer_track_pause (void)
 	dfplayer_send_command(DFPLAYER_CMD_PLAY_PAUSE, NONE_PARAMETER);
 }
 
-void dfplayer_track_playback (void)
+void dfplayer_track_play_continue (void)
 {
 	dfplayer_send_command(DFPLAYER_CMD_PLAY_CONTINUE, NONE_PARAMETER);
 }
@@ -161,7 +161,7 @@ void test()
 
 	bsp_delay(5000);
 
-	dfplayer_track_playback();
+	dfplayer_track_play_continue();
 }
 
 
