@@ -44,6 +44,22 @@ void dfrplayer_send_command (uint8_t id_command, uint8_t byte_data_high, uint8_t
 	bsp_transmit_data(PACKET_TRANSMIT_DATA, PACKET_SIZE);
 }
 
+//void dfplayer_play_music ()
+//{
+//	dfrplayer_send_command ()
+//}
+
+
+void test()
+{
+//	dfrplayer_send_command(0x0D, 0x00, 0x00);
+
+
+	dfrplayer_send_command(0x0D, 0x00, 0x00);
+
+
+//	sys_test_2();
+}
 
 
 

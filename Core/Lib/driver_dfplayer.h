@@ -9,6 +9,8 @@
 #define LIB_DRIVER_DFPLAYER_H_
 
 #include "bsp_dfplayer.h"
+#include "test.h"
+#include "stdint.h"
 
 
 typedef struct
@@ -27,6 +29,8 @@ typedef struct
 
 #define PACKET_TRANSMIT_DATA ((uint8_t*)&dfr_player)
 
-#define PACKET_SIZE 10
+#define PACKET_SIZE sizeof(packet_dfrplayer_data_t)
+
+void test();
 
 #endif /* LIB_DRIVER_DFPLAYER_H_ */
