@@ -20,16 +20,14 @@ typedef struct
 	uint8_t 	length;
 	uint8_t 	id_command;
 	uint8_t 	feedback;
-	uint8_t 	byte_para_high;
-	uint8_t		byte_para_low;
-	uint16_t	check_sum;
+	uint8_t 	para_byte_high;
+	uint8_t		para_byte_low;
+	uint8_t		check_sum_high;
+	uint8_t		check_sum_low;
 	uint8_t 	end_byte;
 
 } packet_dfrplayer_data_t;
 
-#define PACKET_TRANSMIT_DATA ((uint8_t*)&dfr_player)
-
-#define PACKET_SIZE sizeof(packet_dfrplayer_data_t)
 
 void test();
 

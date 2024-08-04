@@ -6,12 +6,15 @@
  */
 
 #include "driver_dfplayer.h"
+#include "string.h"
 
 #define START_BYTE			0x7E
 #define VERSION 			0xEF
 #define	LENGTH				0x06
 #define	ENABLE_FEEDBACK 	0x01
 #define END_BYTE			0x7E
+
+#define SPECIFY_TRACK		0x03
 
 
 
@@ -23,43 +26,55 @@ packet_dfrplayer_data_t dfr_player =
 	.feedback	= ENABLE_FEEDBACK
 };
 
-static uint16_t dfrplayer_cal_checksum (uint8_t id_command, uint8_t byte_para_high, uint8_t byte_para_low)
-{
-	uint16_t temp_checksum = VERSION + LENGTH + id_command + ENABLE_FEEDBACK + byte_para_high + byte_para_low;
-	temp_checksum = 0-temp_checksum;
+#define PACKET_TRANSMIT_DATA ((uint8_t*)&dfr_player)
 
-	return temp_checksum;
+#define PACKET_SIZE sizeof(packet_dfrplayer_data_t)
+
+static uint16_t dfrplayer_cal_checksum (uint8_t id_command, uint16_t para_byte)
+{
+	uint16_t checksum = VERSION + LENGTH + id_command + ENABLE_FEEDBACK + para_byte;
+	checksum = 0 - checksum;
+
+	return checksum;
 }
 
-void dfrplayer_send_command (uint8_t id_command, uint8_t byte_data_high, uint8_t byte_data_low)
+static void dfrplayer_send_command (uint8_t id_command, uint16_t para_byte)
 {
 	dfr_player.id_command = id_command;
 
-	dfr_player.byte_para_high = byte_data_high;
+	dfr_player.para_byte_high = (para_byte>>8)&0x00FF;
 
-	dfr_player.byte_para_low = byte_data_low;
+	dfr_player.para_byte_low = para_byte & 0x00FF;
 
-	dfr_player.check_sum = dfrplayer_cal_checksum(id_command, byte_data_high, byte_data_low);
+
+	uint16_t temp_checksum = dfrplayer_cal_checksum(id_command, para_byte);
+
+	dfr_player.check_sum_high = (temp_checksum >> 8) & 0x00FF;
+
+	dfr_player.check_sum_low = temp_checksum & 0x00FF;
 
 	bsp_transmit_data(PACKET_TRANSMIT_DATA, PACKET_SIZE);
 }
 
-//void dfplayer_play_music ()
-//{
-//	dfrplayer_send_command ()
-//}
+
+void dfrplayer_play_song (uint16_t ordinal_song_number)
+{
+	dfrplayer_send_command (SPECIFY_TRACK, ordinal_song_number);
+}
 
 
 void test()
 {
-//	dfrplayer_send_command(0x0D, 0x00, 0x00);
+	dfrplayer_play_song(1);
 
-
-	dfrplayer_send_command(0x0D, 0x00, 0x00);
-
-
-//	sys_test_2();
 }
+
+
+
+
+
+
+
 
 
 
