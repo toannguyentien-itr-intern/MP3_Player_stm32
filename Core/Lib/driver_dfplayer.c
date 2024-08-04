@@ -129,6 +129,11 @@ void dfplayer_random_mode_play (void)
 	dfplayer_send_command(DFPLAYER_CMD_RANDOM_MODE, RANDOM_MODE_PARAMETER);
 }
 
+void dfplayer_adjust_volumn (uint8_t volumn)
+{
+	dfplayer_send_command(DFPLAYER_CMD_SET_VOL, volumn);
+}
+
 void dfplayer_init ()
 {
 		// reset module
@@ -141,8 +146,7 @@ void dfplayer_init ()
 	dfplayer_send_command (DFPLAYER_CMD_PLAYBACK_SRC, TF_CARD_PARAMETER);
 
 		// Setting the initial volumn: 25
-	dfplayer_send_command(DFPLAYER_CMD_SET_VOL, 25);
-
+	dfplayer_adjust_volumn (25);
 }
 
 void test()
