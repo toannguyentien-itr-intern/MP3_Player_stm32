@@ -9,8 +9,7 @@
 #define LIB_DRIVER_DFPLAYER_H_
 
 #include "bsp_dfplayer.h"
-#include "test.h"
-#include "stdint.h"
+#include "bsp_timer.h"
 
 
 typedef struct

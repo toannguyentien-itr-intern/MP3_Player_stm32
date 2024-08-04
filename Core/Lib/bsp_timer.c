@@ -5,4 +5,10 @@
  *      Author: MTC-TTM
  */
 
+#include "bsp_timer.h"
+
+void bsp_delay (uint32_t time_delay)
+{
+	HAL_Delay(time_delay);
+}
 

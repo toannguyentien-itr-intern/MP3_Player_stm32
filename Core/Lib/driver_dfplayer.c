@@ -6,7 +6,6 @@
  */
 
 #include "driver_dfplayer.h"
-#include "string.h"
 
 #define START_BYTE			0x7E
 #define VERSION 			0xEF
@@ -54,6 +53,7 @@ static void dfrplayer_send_command (uint8_t id_command, uint16_t para_byte)
 	dfr_player.check_sum_low = temp_checksum & 0x00FF;
 
 	bsp_transmit_data(PACKET_TRANSMIT_DATA, PACKET_SIZE);
+
 }
 
 
@@ -65,7 +65,17 @@ void dfrplayer_play_song (uint16_t ordinal_song_number)
 
 void test()
 {
+
 	dfrplayer_play_song(1);
+//
+//	bsp_delay(5000);
+//
+//	dfrplayer_play_song(2);
+//
+//	bsp_delay(5000);
+//
+//	dfrplayer_play_song(3);
+
 
 }
 
