@@ -10,25 +10,23 @@
 
 #include "bsp_dfplayer.h"
 
-#define START_BYTE	0x7E
-#define VERSION 	0xEF
-#define	LENGTH		0x06
-#define	FEEDBACK 	0x01
-#define END_BYTE	0x7E
-
 
 typedef struct
 {
 	uint8_t 	start_byte;
 	uint8_t 	version;
 	uint8_t 	length;
-	uint8_t 	command;
-	uint8_t 	feedack;
-	uint8_t 	byte_data_high;
-	uint8_t		byte_data_low;
+	uint8_t 	id_command;
+	uint8_t 	feedback;
+	uint8_t 	byte_para_high;
+	uint8_t		byte_para_low;
 	uint16_t	check_sum;
 	uint8_t 	end_byte;
 
 } packet_dfrplayer_data_t;
+
+#define PACKET_TRANSMIT_DATA ((uint8_t*)&dfr_player)
+
+#define PACKET_SIZE 10
 
 #endif /* LIB_DRIVER_DFPLAYER_H_ */
