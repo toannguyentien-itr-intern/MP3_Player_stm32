@@ -8,4 +8,7 @@
 #include "driver_rotation_sensor.h"
 
 
-
+#define ADC_MAX_VALUE 4095
+#define MAX_ANGLE 300.0
+uint32_t adc_value;
+float angle;
