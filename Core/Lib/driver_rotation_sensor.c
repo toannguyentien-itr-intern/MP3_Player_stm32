@@ -12,3 +12,20 @@
 #define MAX_ANGLE 300.0
 uint32_t adc_value;
 float angle;
+
+extern ADC_HandleTypeDef hadc1;
+
+void rotation_sensor_test()
+{
+	bsp_adc_start();
+
+	while (1)
+	{
+		if (bsp_check_adc_flag)
+			adc_value = bsp_get_adc_value();
+
+		// Calculate the rotation angle
+		angle = ((float)adc_value / ADC_MAX_VALUE) * MAX_ANGLE;
+
+	}
+}

@@ -59,22 +59,7 @@ static void MX_ADC1_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-#define ADC_MAX_VALUE 4095
-#define MAX_ANGLE 300.0
-uint32_t adc_value;
-float angle;
-void test_rotation_sensor()
-{
-    HAL_ADC_Start(&hadc1);
-    HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY); // Wait for conversion to complete
-    adc_value = HAL_ADC_GetValue(&hadc1); // Get ADC value
-    HAL_ADC_Stop(&hadc1);
 
-    // Calculate the rotation angle
-    angle = ((float)adc_value / ADC_MAX_VALUE) * MAX_ANGLE;
-
-    HAL_Delay(100); // Delay for stability
-}
 /* USER CODE END 0 */
 
 /**

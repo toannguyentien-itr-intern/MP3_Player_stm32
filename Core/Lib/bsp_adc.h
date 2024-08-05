@@ -16,5 +16,10 @@ void bsp_adc_start (void);
 
 void bsp_adc_stop (void);
 
+uint32_t bsp_get_adc_value (void);
+
+uint8_t bsp_check_adc_flag (void);
+
+
 
 #endif /* LIB_BSP_ADC_H_ */

@@ -11,4 +11,6 @@
 #include "bsp_adc.h"
 
 
+void rotation_sensor_test();
+
 #endif /* LIB_DRIVER_ROTATION_SENSOR_H_ */
