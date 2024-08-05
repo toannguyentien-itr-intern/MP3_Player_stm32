@@ -7,12 +7,16 @@
 
 
 #include "bsp_adc.h"
+#include "stdlib.h"
 
 extern ADC_HandleTypeDef hadc1;
 
 #define ROTATION_ADC &hadc1
 
-uint8_t adc_flag =0;
+//volatile uint16_t adc_value = 0;
+volatile uint8_t adc_flag = 0;
+//static uint16_t last_stable_value = 0;
+//const uint16_t ADC_THRESHOLD = 10;  // Adjust based on your need
 
 
 void bsp_adc_start (void)
@@ -40,15 +44,22 @@ uint8_t bsp_check_adc_flag (void)
 	return temp_adc_flag;
 }
 
-void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
-{
-	__NOP();
-  if (hadc->Instance == ADC1)
-  {
-	  adc_flag = 1;
-
-	  HAL_ADC_Start_IT(ROTATION_ADC);
-
-  }
-
-}
+//void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
+//{
+//	__NOP();
+//    if (hadc->Instance == ADC1)
+//    {
+//        uint16_t new_value = HAL_ADC_GetValue(ROTATION_ADC);
+//
+//        // Only update if the change is significant
+//        if (abs((int)new_value - (int)last_stable_value) > ADC_THRESHOLD)
+//        {
+//            adc_value = new_value;
+//            last_stable_value = new_value;
+//            adc_flag = 1;  // Set flag to indicate significant change
+//        }
+//
+//        // Restart the ADC conversion
+//        HAL_ADC_Start_IT(hadc);
+//    }
+//}
