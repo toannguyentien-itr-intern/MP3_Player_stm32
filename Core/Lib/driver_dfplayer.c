@@ -28,9 +28,13 @@
 
 //#define DFPLAYER_CMD_SET_EQ        0x07
 
-#define DFPLAYER_CMD_RANDOM_MODE 	0x08
+#define DFPLAYER_CMD_REPEAT_MODE 	0x08
+#define REPEAT_MODE_PARAMETER		0x00
 
-#define DFPLAYER_CMD_PLAYBACK_SRC  0x09
+
+#define DFPLAYER_CMD_PLAYBACK_SRC  	0x09
+#define TF_CARD_PARAMETER			0x02		// Micro SD card
+
 
 //#define DFPLAYER_CMD_STANDBY_MODE  0x0A
 
@@ -42,18 +46,17 @@
 
 #define DFPLAYER_CMD_PLAY_PAUSE    0x0E
 
-#define DFPLAYER_CMD_PLAYBACK_MODE   0x11
+#define DFPLAYER_CMD_NORMAL_MODE   0x11
+#define NORMAL_MODE_PARAMETER	   0x00
+
 
 
 
 
 	// CONST PARAMETER
 #define NONE_PARAMETER			0x00
-#define TF_CARD_PARAMETER		0x02		// Micro SD card
 
 
-#define NORMAL_MODE_PARAMETER	0x00
-#define REPEAT_MODE_PARAMETER	0x01
 #define	RANDOM_MODE_PARAMETER	0x03
 
 
@@ -96,12 +99,14 @@ static void dfplayer_send_command (uint8_t id_command, uint16_t para_byte)
 	df_player.check_sum_low = temp_checksum & 0x00FF;
 
 	bsp_transmit_data(DFPLAYER_COMMAND_TRANSMIT, DFPLAYER_COMMAND_SIZE);
+
 }
 
 
 void dfplayer_track_play (uint16_t ordinal_song_number)
 {
 	dfplayer_send_command (DFPLAYER_CMD_PLAY_TRACK, ordinal_song_number);
+	bsp_delay(200);
 }
 
 void dfplayer_track_pause (void)
@@ -116,17 +121,17 @@ void dfplayer_track_play_continue (void)
 
 void dfplayer_normal_mode_play (void)
 {
-	dfplayer_send_command(DFPLAYER_CMD_PLAYBACK_MODE, NORMAL_MODE_PARAMETER);
+	dfplayer_send_command(DFPLAYER_CMD_NORMAL_MODE, NORMAL_MODE_PARAMETER);
 }
 
 void dfplayer_repeat_mode_play (void)
 {
-	dfplayer_send_command(DFPLAYER_CMD_PLAYBACK_MODE, NORMAL_MODE_PARAMETER);
+	dfplayer_send_command(DFPLAYER_CMD_REPEAT_MODE, REPEAT_MODE_PARAMETER);
 }
 
 void dfplayer_random_mode_play (void)
 {
-	dfplayer_send_command(DFPLAYER_CMD_RANDOM_MODE, RANDOM_MODE_PARAMETER);
+	dfplayer_send_command(0x08 , 3);
 }
 
 void dfplayer_adjust_volumn (uint8_t volumn)
@@ -137,10 +142,12 @@ void dfplayer_adjust_volumn (uint8_t volumn)
 void dfplayer_init ()
 {
 		// reset module
-	dfplayer_send_command (DFPLAYER_CMD_RESET, NONE_PARAMETER);
+//	dfplayer_send_command (DFPLAYER_CMD_RESET, NONE_PARAMETER);
+//	bsp_delay(500);
 
 		// Could adding the pause command to make sure there are stop play song
 	dfplayer_track_pause();
+	bsp_delay(500);
 
 		// initial the playback source: Micro SD card (TF card)
 	dfplayer_send_command (DFPLAYER_CMD_PLAYBACK_SRC, TF_CARD_PARAMETER);
@@ -153,15 +160,17 @@ void test()
 {
 	dfplayer_init();
 
-	dfplayer_track_play(1);
+//	dfplayer_track_play(2);
 
-	bsp_delay(3000);
+//	dfplayer_normal_mode_play();
 
-	dfplayer_track_pause();
+//	dfplayer_repeat_mode_play();
 
-	bsp_delay(5000);
+	dfplayer_random_mode_play();
 
-	dfplayer_track_play_continue();
+	bsp_delay(6000);
+
+	dfplayer_random_mode_play();
 }
 
 
