@@ -14,7 +14,7 @@ extern ADC_HandleTypeDef hadc1;
 #define ROTATION_ADC &hadc1
 
 //volatile uint16_t adc_value = 0;
-volatile uint8_t adc_flag = 0;
+volatile static uint8_t adc_flag = 0;
 //static uint16_t last_stable_value = 0;
 //const uint16_t ADC_THRESHOLD = 10;  // Adjust based on your need
 
@@ -44,13 +44,4 @@ uint8_t bsp_check_adc_flag (void)
 	return temp_adc_flag;
 }
 
-void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
-{
-	__NOP();
-    if (hadc->Instance == ADC1)
-    {
-    	adc_flag = 1;
 
-        HAL_ADC_Start_IT(hadc);
-    }
-}
