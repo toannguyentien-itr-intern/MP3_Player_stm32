@@ -11,6 +11,7 @@
 
 
 #include "driver_dfplayer.h"
+#include "driver_rotation_sensor.h"
 
 
 void system_manage_loop();
