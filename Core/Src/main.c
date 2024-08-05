@@ -102,7 +102,6 @@ int main(void)
   system_manage_loop();
   while (1)
   {
-//	  test_rotation_sensor();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

@@ -8,8 +8,8 @@
 #ifndef LIB_DRIVER_ROTATION_SENSOR_H_
 #define LIB_DRIVER_ROTATION_SENSOR_H_
 
-#include "bsp_adc.h"
-#include "bsp_timer.h"
+#include <bsp_adc.h>
+#include <bsp_timer.h>
 
 
 void rotation_sensor_test();

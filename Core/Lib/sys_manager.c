@@ -7,9 +7,6 @@
 
 #include "sys_manager.h"
 
-// Main loop function
-
-
 
 void system_manage_loop()
 {

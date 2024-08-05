@@ -5,8 +5,8 @@
  *      Author: MTC-TTM
  */
 
-#ifndef LIB_BSP_DFPLAYER_H_
-#define LIB_BSP_DFPLAYER_H_
+#ifndef LIB_BSP_INC_BSP_DFPLAYER_H_
+#define LIB_BSP_INC_BSP_DFPLAYER_H_
 
 #include "stm32f4xx_hal.h"
 
@@ -17,4 +17,4 @@ uint8_t bsp_check_receive_status (void);
 
 
 
-#endif /* LIB_BSP_DFPLAYER_H_ */
+#endif /* LIB_BSP_INC_BSP_DFPLAYER_H_ */
