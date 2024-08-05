@@ -8,6 +8,13 @@
 #ifndef LIB_BSP_ADC_H_
 #define LIB_BSP_ADC_H_
 
+#include "stm32f4xx_hal.h"
+
+
+
+void bsp_adc_start (void);
+
+void bsp_adc_stop (void);
 
 
 #endif /* LIB_BSP_ADC_H_ */
