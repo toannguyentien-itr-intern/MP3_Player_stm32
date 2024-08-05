@@ -163,14 +163,11 @@ void dfplayer_init ()
 	dfplayer_adjust_volumn (25);
 }
 
-void test()
+void dfplayer_test()
 {
 	dfplayer_init();
 
 	dfplayer_track_play(2);
-
-	bsp_delay(1000);
-
 }
 
 

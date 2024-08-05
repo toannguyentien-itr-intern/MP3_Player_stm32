@@ -35,6 +35,6 @@ typedef enum
 } dfplayer_playback_mode_t;
 
 
-void test();
+void dfplayer_test();
 
 #endif /* LIB_DRIVER_DFPLAYER_H_ */

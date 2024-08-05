@@ -13,7 +13,7 @@
 
 void system_manage_loop()
 {
-	test();
+	dfplayer_test();
 }
 
 

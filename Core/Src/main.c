@@ -114,10 +114,10 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-//  system_manage_loop();
+  system_manage_loop();
   while (1)
   {
-	  test_rotation_sensor();
+//	  test_rotation_sensor();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
