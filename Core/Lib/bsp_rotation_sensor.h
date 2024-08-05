@@ -5,8 +5,8 @@
  *      Author: MTC-TTM
  */
 
-#ifndef LIB_BSP_ADC_H_
-#define LIB_BSP_ADC_H_
+#ifndef LIB_BSP_ROTATION_SENSOR_H_
+#define LIB_BSP_ROTATION_SENSOR_H_
 
 #include "stm32f4xx_hal.h"
 
@@ -22,4 +22,4 @@ uint8_t bsp_check_adc_flag (void);
 
 
 
-#endif /* LIB_BSP_ADC_H_ */
+#endif /* LIB_BSP_ROTATION_SENSOR_H_ */

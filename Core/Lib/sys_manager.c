@@ -10,8 +10,8 @@
 
 void system_manage_loop()
 {
-	dfplayer_test();
-//	rotation_sensor_test();
+//	dfplayer_test();
+	rotation_sensor_test();
 }
 
 

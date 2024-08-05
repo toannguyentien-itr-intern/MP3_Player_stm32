@@ -6,7 +6,7 @@
  */
 
 
-#include <bsp_adc.h>
+#include <bsp_rotation_sensor.h>
 #include "stdlib.h"
 
 extern ADC_HandleTypeDef hadc1;
@@ -44,22 +44,13 @@ uint8_t bsp_check_adc_flag (void)
 	return temp_adc_flag;
 }
 
-//void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
-//{
-//	__NOP();
-//    if (hadc->Instance == ADC1)
-//    {
-//        uint16_t new_value = HAL_ADC_GetValue(ROTATION_ADC);
-//
-//        // Only update if the change is significant
-//        if (abs((int)new_value - (int)last_stable_value) > ADC_THRESHOLD)
-//        {
-//            adc_value = new_value;
-//            last_stable_value = new_value;
-//            adc_flag = 1;  // Set flag to indicate significant change
-//        }
-//
-//        // Restart the ADC conversion
-//        HAL_ADC_Start_IT(hadc);
-//    }
-//}
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
+{
+	__NOP();
+    if (hadc->Instance == ADC1)
+    {
+    	adc_flag = 1;
+
+        HAL_ADC_Start_IT(hadc);
+    }
+}
