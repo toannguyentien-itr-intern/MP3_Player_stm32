@@ -76,6 +76,12 @@ packet_dfplayer_data_t df_player =
 #define DFPLAYER_COMMAND_SIZE 		sizeof(packet_dfplayer_data_t)
 
 
+#define BUFFER_SIZE 10
+
+uint8_t buffer_receive_0[BUFFER_SIZE];
+uint8_t buffer_receive_1[BUFFER_SIZE];
+
+
 static uint16_t dfplayer_cal_checksum (uint8_t id_command, uint16_t para_byte)
 {
 	uint16_t checksum = DFPLAYER_VERSION + DFPLAYER_LENGTH + id_command + DFPLAYER_EN_FEEDBACK + para_byte;
@@ -100,6 +106,7 @@ static void dfplayer_send_command (uint8_t id_command, uint16_t para_byte)
 
 	bsp_transmit_data(DFPLAYER_COMMAND_TRANSMIT, DFPLAYER_COMMAND_SIZE);
 
+	bsp_delay(100);
 }
 
 
@@ -162,8 +169,9 @@ void test()
 
 	dfplayer_track_play(2);
 
-}
+	bsp_delay(1000);
 
+}
 
 
 
