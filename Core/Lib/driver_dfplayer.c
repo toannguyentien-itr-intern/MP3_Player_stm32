@@ -17,7 +17,7 @@
 
 
 
-// DFPlayer commands
+	// DFPlayer commands and parameter
 //#define DFPLAYER_CMD_PLAY_NEXT     0x01
 
 //#define DFPLAYER_CMD_PLAY_PREV     0x02
@@ -131,7 +131,7 @@ void dfplayer_repeat_mode_play (void)
 
 void dfplayer_random_mode_play (void)
 {
-	dfplayer_send_command(0x08 , 3);
+//	dfplayer_send_command(0x08 , 0x02);
 }
 
 void dfplayer_adjust_volumn (uint8_t volumn)
@@ -160,17 +160,8 @@ void test()
 {
 	dfplayer_init();
 
-//	dfplayer_track_play(2);
+	dfplayer_track_play(2);
 
-//	dfplayer_normal_mode_play();
-
-//	dfplayer_repeat_mode_play();
-
-	dfplayer_random_mode_play();
-
-	bsp_delay(6000);
-
-	dfplayer_random_mode_play();
 }
 
 
