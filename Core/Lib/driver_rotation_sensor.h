@@ -12,6 +12,12 @@
 #include <bsp_timer.h>
 
 
-void rotation_sensor_test();
+
+void rotation_sensor_init();
+
+uint8_t rotaion_sensor_detect_volumn_change ();
+
+uint8_t rotation_sensor_get_volumn();
+
 
 #endif /* LIB_DRIVER_ROTATION_SENSOR_H_ */

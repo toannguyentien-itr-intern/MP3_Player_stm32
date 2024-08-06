@@ -19,22 +19,29 @@ volatile uint8_t flag;
 
 volatile uint8_t driver_volumn_value;
 
+volatile uint8_t detect_flag = 0;
+
 
 
 
 #define ROTATION_ADC &hadc1
 
 
-void driver_get_volumn ()
+uint8_t rotaion_sensor_detect_volumn_change ()
 {
+	uint8_t temp_flag = detect_flag;
+	detect_flag = 0;
+	return temp_flag;
+}
 
+void rotation_sensor_init()
+{
+	bsp_adc_start();
 }
 
 
-void rotation_sensor_test()
+uint8_t rotation_sensor_get_volumn()
 {
-	bsp_adc_start();
-
 	while (1)
 	{
 		__NOP();
@@ -49,13 +56,12 @@ void rotation_sensor_test()
 
 			driver_volumn_value = temp;
 
-			HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
 		}
-
-
 		// Restart the ADC conversion
 
-		bsp_adc_start();
+		rotation_sensor_init();
+
+		return driver_volumn_value;
 
 	}
 }
