@@ -47,6 +47,15 @@ uint8_t bsp_check_receive_status (void)
 	return 0;
 }
 
+uint8_t bsp_check_playing_status (void)
+{
+	uint8_t status = HAL_GPIO_ReadPin(GPIOD, GPIO_PIN_14);
+	if (status)
+		return 0;
+
+	return 1;
+}
+
 		// Call back transmit
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
 {

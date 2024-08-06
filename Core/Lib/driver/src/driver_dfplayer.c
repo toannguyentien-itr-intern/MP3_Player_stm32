@@ -49,8 +49,7 @@
 #define DFPLAYER_CMD_NORMAL_MODE   0x11
 #define NORMAL_MODE_PARAMETER	   0x00
 
-
-
+#define DFPLAYER_CMD_RANDOM_MODE	0X18
 
 
 	// CONST PARAMETER
@@ -135,7 +134,12 @@ void dfplayer_repeat_mode_play (void)
 
 void dfplayer_random_mode_play (void)
 {
-//	dfplayer_send_command(0x08 , 0x02);
+	while (bsp_check_playing_status())
+	{
+		continue;
+	}
+
+	dfplayer_send_command(DFPLAYER_CMD_RANDOM_MODE, NONE_PARAMETER);
 }
 
 void dfplayer_adjust_volumn (uint8_t volumn)
@@ -160,25 +164,21 @@ void dfplayer_init (void)
 	dfplayer_adjust_volumn (25);
 }
 
-#define DFPLAYER_CMD_RANDOM_MODE	0X18
-#define RANDOM_MODE_PARAMETER		0x02
+
 
 void dfplayer_test()
 {
-
 	dfplayer_init();
 
 	dfplayer_adjust_volumn(2);
 
+	dfplayer_track_play(4);
+
+	dfplayer_random_mode_play();
+
 	dfplayer_track_play(2);
-
-	bsp_delay(7000);
-
-	dfplayer_send_command(0x18, 0x00);
-
-
-
 }
+
 
 
 

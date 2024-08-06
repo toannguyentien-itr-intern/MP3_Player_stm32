@@ -14,6 +14,7 @@ void bsp_transmit_data (uint8_t* data, uint8_t size);
 void bsp_receive_data (uint8_t* data, uint8_t size);
 uint8_t bsp_check_transmit_status (void);
 uint8_t bsp_check_receive_status (void);
+uint8_t bsp_check_playing_status (void);
 
 
 
