@@ -28,7 +28,7 @@ void system_manage_loop()
 	system_audio_init();
 
 
-	dfplayer_track_play(2);
+	dfplayer_track_play(5);
 
 	dfplayer_repeat_mode_play();
 

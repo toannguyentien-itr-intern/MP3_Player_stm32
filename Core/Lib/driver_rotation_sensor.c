@@ -14,8 +14,6 @@
 extern ADC_HandleTypeDef hadc1;
 
 volatile float temp;
-volatile float temp_adc;
-
 volatile uint8_t driver_volumn_value;
 
 
@@ -30,30 +28,20 @@ void rotation_sensor_init()
 	bsp_adc_start();
 }
 
-
+uint8_t rotaion_sensor_detect_volumn_change ()
+{
+	return bsp_check_adc_flag();
+}
 
 uint8_t rotation_sensor_get_volumn()
 {
-	while (1)
-	{
-		__NOP();
+	driver_volumn_value = (bsp_get_adc_value() * MAX_VOLUMN) / ADC_MAX_VALUE;
 
-		if (bsp_check_adc_flag())
-		{
-			temp = bsp_get_adc_value();
+	rotation_sensor_init();
 
-			temp = (temp / ADC_MAX_VALUE) * MAX_VOLUMN;
-
-			driver_volumn_value = temp;
-
-		}
-
-		// Restart the ADC conversion
-		rotation_sensor_init();
-
-		return driver_volumn_value;
-	}
+	return driver_volumn_value;
 }
+
 
 
 
