@@ -7,11 +7,14 @@
 
 #include <bsp_dfplayer.h>
 
-extern UART_HandleTypeDef huart2;
+extern UART_HandleTypeDef 	huart2;
+extern DMA_HandleTypeDef 	hdma_usart2_rx;
 
-#define DF_PLAYER_UART &huart2
 
-volatile uint8_t transmit_flag = 0;
+#define DF_PLAYER_UART 		&huart2
+#define DF_PLAYER_DMA_RX	&hdma_usart2_rx
+
+volatile static uint8_t transmit_flag = 0;
 volatile static uint8_t receive_flag = 0;
 
 		// Transmit data
@@ -24,7 +27,7 @@ void bsp_transmit_data (uint8_t* data, uint8_t size)
 		// Ready to receive data
 void bsp_receive_data (uint8_t* data, uint8_t size)
 {
-	if (HAL_UART_Receive_IT(DF_PLAYER_UART, data, size) == HAL_OK)
+	if (HAL_UART_Receive_DMA(DF_PLAYER_UART, data, size) == HAL_OK)
 		return;
 }
 
@@ -53,6 +56,18 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
 		transmit_flag = 1;
 		HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
 
+	}
+}
+
+
+// Call back receive data
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+	__NOP();
+	if (huart->Instance == USART2)
+	{
+        __HAL_DMA_DISABLE(DF_PLAYER_DMA_RX);
+		receive_flag = 1;
 	}
 }
 
