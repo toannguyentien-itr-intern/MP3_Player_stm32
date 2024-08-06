@@ -17,7 +17,7 @@
 
 
 
-	// DFPlayer commands and parameter
+	// DFPlayer commands and parameter for each Command
 //#define DFPLAYER_CMD_PLAY_NEXT     0x01
 
 //#define DFPLAYER_CMD_PLAY_PREV     0x02
@@ -59,7 +59,10 @@
 
 #define	RANDOM_MODE_PARAMETER	0x03
 
+#define BUFFER_SIZE 20
 
+uint8_t rx_buffer [BUFFER_SIZE];
+uint8_t receive_flag = 0;
 
 
 packet_dfplayer_data_t df_player =
@@ -160,30 +163,35 @@ void dfplayer_init (void)
 
 
 
-#define BUFFER_SIZE 20
-
-uint8_t rx_buffer [BUFFER_SIZE];
-uint8_t receive_flag = 0;
-
-
 void dfplayer_test()
 {
 
 	dfplayer_init();
 
-	dfplayer_track_play(2);
+//	dfplayer_track_play(2);
 
 //	bsp_receive_data(rx_buffer, BUFFER_SIZE);
 
-	while (1)
-	{
-		receive_flag = bsp_check_receive_status();
+//	while (1)
+//	{
+//		receive_flag = bsp_check_receive_status();
+//
+//		if (receive_flag)
+//		{
+//			HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
+//		}
+//	}
 
-		if (receive_flag)
-		{
-			HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
-		}
-	}
+	dfplayer_send_command(0x18, 0x0002);
+
+	bsp_delay(50000);
+	HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
+
+	dfplayer_track_pause();
+
+	bsp_delay(5000);
+
+	dfplayer_track_play_continue();
 
 }
 
