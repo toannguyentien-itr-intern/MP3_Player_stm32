@@ -146,7 +146,7 @@ void dfplayer_adjust_volumn (uint8_t volumn)
 	dfplayer_send_command(DFPLAYER_CMD_SET_VOL, volumn);
 }
 
-void dfplayer_init ()
+void dfplayer_init (void)
 {
 		// reset module
 //	dfplayer_send_command (DFPLAYER_CMD_RESET, NONE_PARAMETER);

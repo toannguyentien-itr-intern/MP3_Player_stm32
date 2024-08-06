@@ -37,4 +37,10 @@ typedef enum
 
 void dfplayer_test();
 
+void dfplayer_init (void);
+void dfplayer_track_play (uint16_t ordinal_song_number);
+void dfplayer_repeat_mode_play (void);
+
+void dfplayer_adjust_volumn (uint8_t volumn);
+
 #endif /* LIB_DRIVER_DFPLAYER_H_ */
