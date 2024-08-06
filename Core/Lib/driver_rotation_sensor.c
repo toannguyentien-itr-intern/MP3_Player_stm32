@@ -18,20 +18,12 @@ volatile float temp_adc;
 
 volatile uint8_t driver_volumn_value;
 
-volatile uint8_t detect_flag = 0;
 
 
 
 
 #define ROTATION_ADC &hadc1
 
-
-uint8_t rotaion_sensor_detect_volumn_change ()
-{
-	uint8_t temp_flag = detect_flag;
-	detect_flag = 0;
-	return temp_flag;
-}
 
 void rotation_sensor_init()
 {

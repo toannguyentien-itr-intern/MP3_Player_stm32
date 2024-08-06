@@ -13,13 +13,13 @@ extern ADC_HandleTypeDef hadc1;
 
 #define ROTATION_ADC &hadc1
 
+#define ADC_THRESHOLD  20  // Adjust this value as needed
 
 
 volatile static uint8_t adc_flag = 0;
 
 static uint16_t last_stable_value = 0;
 
-const uint16_t ADC_THRESHOLD = 20;  // Adjust this value as needed
 
 
 
