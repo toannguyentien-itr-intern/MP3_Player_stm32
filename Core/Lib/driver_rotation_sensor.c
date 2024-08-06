@@ -37,8 +37,6 @@ uint8_t rotation_sensor_get_volumn()
 {
 	driver_volumn_value = (bsp_get_adc_value() * MAX_VOLUMN) / ADC_MAX_VALUE;
 
-	rotation_sensor_init();
-
 	return driver_volumn_value;
 }
 
