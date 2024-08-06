@@ -12,7 +12,7 @@ extern UART_HandleTypeDef huart2;
 #define DF_PLAYER_UART &huart2
 
 volatile uint8_t transmit_flag = 0;
-volatile uint8_t receive_flag = 0;
+volatile static uint8_t receive_flag = 0;
 
 		// Transmit data
 void bsp_transmit_data (uint8_t* data, uint8_t size)
@@ -56,13 +56,4 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
 	}
 }
 
-		// Call back receive data
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
-{
-	__NOP();
-	if (huart->Instance == USART2)
-	{
-		receive_flag = 1;
-		HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
-	}
-}
+

@@ -76,11 +76,6 @@ packet_dfplayer_data_t df_player =
 #define DFPLAYER_COMMAND_SIZE 		sizeof(packet_dfplayer_data_t)
 
 
-#define BUFFER_SIZE 10
-
-uint8_t buffer_receive_0[BUFFER_SIZE];
-uint8_t buffer_receive_1[BUFFER_SIZE];
-
 
 static uint16_t dfplayer_cal_checksum (uint8_t id_command, uint16_t para_byte)
 {
@@ -163,11 +158,36 @@ void dfplayer_init (void)
 	dfplayer_adjust_volumn (25);
 }
 
+
+
+extern UART_HandleTypeDef huart2;
+extern DMA_HandleTypeDef hdma_usart2_rx;
+
+#define BUFFER_SIZE 20
+
+uint8_t rx_buffer [BUFFER_SIZE];
+uint8_t receive_flag = 0;
+
+
 void dfplayer_test()
 {
+	HAL_UART_Receive_DMA(&huart2, rx_buffer, BUFFER_SIZE);
+
 	dfplayer_init();
 
 	dfplayer_track_play(2);
+}
+
+
+// Call back receive data
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+	__NOP();
+	if (huart->Instance == USART2)
+	{
+		receive_flag = 1;
+		HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
+	}
 }
 
 

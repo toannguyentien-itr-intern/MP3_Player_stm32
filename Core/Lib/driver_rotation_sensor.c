@@ -9,7 +9,7 @@
 #include "stdlib.h"
 
 #define ADC_MAX_VALUE 4095
-#define MAX_VOLUMN 	30
+#define MAX_VOLUMN 	31
 
 extern ADC_HandleTypeDef hadc1;
 
