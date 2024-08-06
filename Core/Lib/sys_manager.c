@@ -23,30 +23,30 @@ void system_audio_init()
 void system_manage_loop()
 {
 
-	dfplayer_test();
+//	dfplayer_test();
 
-//	system_audio_init();
-//
-//
-//	dfplayer_track_play(2);
-//
-//	dfplayer_repeat_mode_play();
-//
-//	while (1)
-//	{
-//		__NOP();
-//
-//		change = rotation_sensor_get_volumn();
-//
-//		if (change)
-//		{
-//			volumn = rotation_sensor_get_volumn();
-//
-//			dfplayer_adjust_volumn(volumn);
-//		}
-//
-//		rotation_sensor_init();
-//	}
+	system_audio_init();
+
+
+	dfplayer_track_play(2);
+
+	dfplayer_repeat_mode_play();
+
+	while (1)
+	{
+		__NOP();
+
+		change = rotation_sensor_get_volumn();
+
+		if (change)
+		{
+			volumn = rotation_sensor_get_volumn();
+
+			dfplayer_adjust_volumn(volumn);
+		}
+
+		rotation_sensor_init();
+	}
 }
 
 

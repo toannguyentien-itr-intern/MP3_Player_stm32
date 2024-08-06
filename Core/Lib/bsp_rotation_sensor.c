@@ -15,9 +15,7 @@ extern ADC_HandleTypeDef hadc1;
 
 
 
-volatile uint32_t adc_value = 0;
-
-volatile uint8_t adc_flag = 0;
+volatile static uint8_t adc_flag = 0;
 
 static uint16_t last_stable_value = 0;
 
@@ -43,11 +41,11 @@ uint32_t bsp_get_adc_value (void)
 
 uint8_t bsp_check_adc_flag (void)
 {
-	uint8_t temp_adc_flag = adc_flag;
+	uint8_t return_adc_flag = adc_flag;
 
 	adc_flag = 0;
 
-	return temp_adc_flag;
+	return return_adc_flag;
 }
 
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
@@ -64,7 +62,6 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
         // Only update if the change is significant
         if (abs((int)new_value - (int)last_stable_value) > ADC_THRESHOLD)
         {
-            adc_value = new_value;
             last_stable_value = new_value;
             adc_flag = 1;
         }
