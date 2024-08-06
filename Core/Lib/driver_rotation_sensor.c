@@ -47,10 +47,11 @@ uint8_t rotation_sensor_get_volumn()
 			driver_volumn_value = temp;
 
 		}
+
 		// Restart the ADC conversion
+		rotation_sensor_init();
 
 		return driver_volumn_value;
-
 	}
 }
 

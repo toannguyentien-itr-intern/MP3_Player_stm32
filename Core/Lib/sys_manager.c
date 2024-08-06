@@ -36,16 +36,10 @@ void system_manage_loop()
 	{
 		__NOP();
 
-		change = rotation_sensor_get_volumn();
+		volumn = rotation_sensor_get_volumn();
 
-		if (change)
-		{
-			volumn = rotation_sensor_get_volumn();
+		dfplayer_adjust_volumn(volumn);
 
-			dfplayer_adjust_volumn(volumn);
-		}
-
-		rotation_sensor_init();
 	}
 }
 
