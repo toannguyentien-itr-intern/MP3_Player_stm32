@@ -11,7 +11,6 @@
 #include <bsp_dfplayer.h>
 #include <bsp_timer.h>
 
-
 typedef struct
 {
 	uint8_t 	start_byte;

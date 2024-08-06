@@ -57,7 +57,6 @@
 #define NONE_PARAMETER			0x00
 
 
-#define	RANDOM_MODE_PARAMETER	0x03
 
 #define BUFFER_SIZE 20
 
@@ -161,37 +160,23 @@ void dfplayer_init (void)
 	dfplayer_adjust_volumn (25);
 }
 
-
+#define DFPLAYER_CMD_RANDOM_MODE	0X18
+#define RANDOM_MODE_PARAMETER		0x02
 
 void dfplayer_test()
 {
 
 	dfplayer_init();
 
-//	dfplayer_track_play(2);
+	dfplayer_adjust_volumn(2);
 
-//	bsp_receive_data(rx_buffer, BUFFER_SIZE);
+	dfplayer_track_play(2);
 
-//	while (1)
-//	{
-//		receive_flag = bsp_check_receive_status();
-//
-//		if (receive_flag)
-//		{
-//			HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
-//		}
-//	}
+	bsp_delay(7000);
 
-	dfplayer_send_command(0x18, 0x0002);
+	dfplayer_send_command(0x18, 0x00);
 
-	bsp_delay(50000);
-	HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
 
-	dfplayer_track_pause();
-
-	bsp_delay(5000);
-
-	dfplayer_track_play_continue();
 
 }
 
