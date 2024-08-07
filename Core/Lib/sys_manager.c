@@ -24,16 +24,16 @@ void system_manage_loop()
 
 	system_audio_init();
 
-	dfplayer_track_play(4);
+	dfplayer_track_play(9);
 
 	dfplayer_repeat_mode_play();
 
 	while (1)
 	{
-		if (rotaion_sensor_detect_volumn_change())
+		if (rotaion_sensor_detect_volume_change())
 		{
-			uint8_t new_volumn = rotation_sensor_get_volumn();
-			dfplayer_adjust_volumn(new_volumn);
+			uint8_t new_volume = rotation_sensor_get_volume();
+			dfplayer_adjust_volume(new_volume);
 
 		}
 			// Ready for the playing music for the next time

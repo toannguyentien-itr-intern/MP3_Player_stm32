@@ -9,12 +9,12 @@
 #include "stdlib.h"
 
 #define ADC_MAX_VALUE 4095
-#define MAX_VOLUMN 	31
+#define MAX_VOLUME 	31
 
 extern ADC_HandleTypeDef hadc1;
 
 volatile float temp;
-volatile uint8_t driver_volumn_value;
+volatile uint8_t driver_volume_value;
 
 
 
@@ -28,16 +28,16 @@ void rotation_sensor_init()
 	bsp_adc_start();
 }
 
-uint8_t rotaion_sensor_detect_volumn_change ()
+uint8_t rotaion_sensor_detect_volume_change ()
 {
 	return bsp_check_adc_flag();
 }
 
-uint8_t rotation_sensor_get_volumn()
+uint8_t rotation_sensor_get_volume()
 {
-	driver_volumn_value = (bsp_get_adc_value() * MAX_VOLUMN) / ADC_MAX_VALUE;
+	driver_volume_value = (bsp_get_adc_value() * MAX_VOLUME) / ADC_MAX_VALUE;
 
-	return driver_volumn_value;
+	return driver_volume_value;
 }
 
 

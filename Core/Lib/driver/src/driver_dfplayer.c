@@ -142,9 +142,9 @@ void dfplayer_random_mode_play (void)
 	dfplayer_send_command(DFPLAYER_CMD_RANDOM_MODE, NONE_PARAMETER);
 }
 
-void dfplayer_adjust_volumn (uint8_t volumn)
+void dfplayer_adjust_volume (uint8_t volume)
 {
-	dfplayer_send_command(DFPLAYER_CMD_SET_VOL, volumn);
+	dfplayer_send_command(DFPLAYER_CMD_SET_VOL, volume);
 }
 
 void dfplayer_init (void)
@@ -160,8 +160,8 @@ void dfplayer_init (void)
 		// initial the playback source: Micro SD card (TF card)
 	dfplayer_send_command (DFPLAYER_CMD_PLAYBACK_SRC, TF_CARD_PARAMETER);
 
-		// Setting the initial volumn: 25
-	dfplayer_adjust_volumn (25);
+		// Setting the initial volume: 25
+	dfplayer_adjust_volume (25);
 }
 
 
@@ -170,7 +170,7 @@ void dfplayer_test()
 {
 	dfplayer_init();
 
-	dfplayer_adjust_volumn(2);
+	dfplayer_adjust_volume(2);
 
 	dfplayer_track_play(4);
 

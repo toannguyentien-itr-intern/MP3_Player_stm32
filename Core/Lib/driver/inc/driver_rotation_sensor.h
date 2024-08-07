@@ -15,9 +15,9 @@
 
 void rotation_sensor_init();
 
-uint8_t rotaion_sensor_detect_volumn_change ();
+uint8_t rotaion_sensor_detect_volume_change ();
 
-uint8_t rotation_sensor_get_volumn();
+uint8_t rotation_sensor_get_volume();
 
 
 #endif /* LIB_DRIVER_ROTATION_SENSOR_H_ */
