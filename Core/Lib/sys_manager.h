@@ -13,6 +13,8 @@
 #include "driver_dfplayer.h"
 #include "driver_rotation_sensor.h"
 
+#include "list_song.h"
+
 
 void system_manage_loop();
 

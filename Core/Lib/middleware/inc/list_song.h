@@ -51,8 +51,6 @@ typedef struct
     char* author_name;
 } song_info_struct_t;
 
-
-
 // Function to get the number of songs
 uint8_t get_list_song_size(void);
 

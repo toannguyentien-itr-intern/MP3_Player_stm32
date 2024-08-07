@@ -15,10 +15,17 @@ void system_audio_init()
 	rotation_sensor_init();
 }
 
+void system_access_music_info()
+{
+	while (1)
+	{
 
+	}
+}
 
 void system_manage_loop()
 {
+	system_access_music_info();
 
 //	dfplayer_test();
 
@@ -38,7 +45,7 @@ void system_manage_loop()
 			dfplayer_adjust_volume(new_volume);
 
 		}
-			// Ready for the playing music for the next time
+			// Ready to adjust the volume
 		rotation_sensor_init();
 
 	}
