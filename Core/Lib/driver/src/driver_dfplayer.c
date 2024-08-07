@@ -105,6 +105,11 @@ static void dfplayer_send_command (uint8_t id_command, uint16_t para_byte)
 	bsp_delay(100);
 }
 
+static void dfplayer_init_tf_card (void)
+{
+	dfplayer_send_command (DFPLAYER_CMD_PLAYBACK_SRC, TF_CARD_PARAMETER);
+}
+
 
 void dfplayer_track_play (uint16_t ordinal_song_number)
 {
@@ -134,10 +139,10 @@ void dfplayer_repeat_mode_play (void)
 
 void dfplayer_random_mode_play (void)
 {
-	while (bsp_check_playing_status())
-	{
-		continue;
-	}
+//	while (bsp_check_playing_status())
+//	{
+//		continue;
+//	}
 
 	dfplayer_send_command(DFPLAYER_CMD_RANDOM_MODE, NONE_PARAMETER);
 }
@@ -158,7 +163,7 @@ void dfplayer_init (void)
 	bsp_delay(500);
 
 		// initial the playback source: Micro SD card (TF card)
-	dfplayer_send_command (DFPLAYER_CMD_PLAYBACK_SRC, TF_CARD_PARAMETER);
+	dfplayer_init_tf_card();
 
 		// Setting the initial volume: 25
 	dfplayer_adjust_volume (25);
