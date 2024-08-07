@@ -7,6 +7,7 @@
 
 #include "sys_manager.h"
 
+#include <string.h> // Include this for strcpy
 
 
 void system_audio_init()
@@ -18,6 +19,10 @@ void system_audio_init()
 char *song_name;
 char *author_name;
 
+uint8_t song_name_u[50];
+uint8_t author_name_u[50];
+
+
 void system_access_music_info()
 {
 	uint8_t index = 5;
@@ -25,6 +30,11 @@ void system_access_music_info()
 	{
 		song_name = get_song_name_info(index);
 		author_name = get_author_name_info(index);
+
+		strcpy((char*) song_name_u, song_name);
+		strcpy((char*) author_name_u, author_name);
+
+
 	}
 }
 
