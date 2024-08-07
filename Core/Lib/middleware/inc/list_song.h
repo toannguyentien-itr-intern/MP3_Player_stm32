@@ -55,8 +55,8 @@ typedef struct
 uint8_t get_list_song_size(void);
 
 // Function to get song information by index
-char *get_song_name_info (uint8_t index);
+uint8_t *get_song_name_info (uint8_t index);
 
-char *get_author_name_info (uint8_t index);
+uint8_t *get_author_name_info (uint8_t index);
 
 #endif /* LIB_MIDDLEWARE_INC_LIST_SONG_H_ */

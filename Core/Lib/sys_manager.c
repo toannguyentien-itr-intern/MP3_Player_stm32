@@ -15,11 +15,16 @@ void system_audio_init()
 	rotation_sensor_init();
 }
 
+uint8_t *song_name;
+uint8_t *author_name;
+
 void system_access_music_info()
 {
+	uint8_t index = 5;
 	while (1)
 	{
-
+		song_name = get_song_name_info(index);
+		author_name = get_author_name_info(index);
 	}
 }
 
