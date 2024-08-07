@@ -40,7 +40,7 @@ void system_access_music_info()
 
 void system_manage_loop()
 {
-	system_access_music_info();
+//	system_access_music_info();
 
 //	dfplayer_test();
 
