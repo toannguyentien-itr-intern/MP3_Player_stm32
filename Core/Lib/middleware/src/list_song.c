@@ -30,20 +30,20 @@ uint8_t get_list_song_size(void)
 }
 
 // Function to get song information by  index
-uint8_t *get_song_name_info (uint8_t index)
+char *get_song_name_info (uint8_t index)
 {
   uint8_t struct_index = index - 1;
 
-  uint8_t *song_name_info =  list_song_index[struct_index].song_name;
+  char *song_name_info =  list_song_index[struct_index].song_name;
 
   return song_name_info;
 }
 
-uint8_t *get_author_name_info (uint8_t index)
+char *get_author_name_info (uint8_t index)
 {
   uint8_t struct_index = index - 1;
 
-  uint8_t *author_name_info =  list_song_index[struct_index].author_name;
+  char *author_name_info =  list_song_index[struct_index].author_name;
 
   return author_name_info;
 }

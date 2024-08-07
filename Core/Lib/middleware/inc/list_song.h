@@ -51,12 +51,10 @@ typedef struct
     char* author_name;
 } song_info_struct_t;
 
-// Function to get the number of songs
 uint8_t get_list_song_size(void);
 
-// Function to get song information by index
-uint8_t *get_song_name_info (uint8_t index);
+char *get_song_name_info (uint8_t index);
 
-uint8_t *get_author_name_info (uint8_t index);
+char *get_author_name_info (uint8_t index);
 
 #endif /* LIB_MIDDLEWARE_INC_LIST_SONG_H_ */

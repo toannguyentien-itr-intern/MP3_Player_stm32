@@ -15,8 +15,8 @@ void system_audio_init()
 	rotation_sensor_init();
 }
 
-uint8_t *song_name;
-uint8_t *author_name;
+char *song_name;
+char *author_name;
 
 void system_access_music_info()
 {
