@@ -1,4 +1,3 @@
-
 /**
  * @file       bsp_rotation_sensor.h
  * @copyright  Copyright (C) 2019 ITRVN. All rights reserved.

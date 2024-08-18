@@ -1,4 +1,3 @@
-
 /**
  * @file       drv_ssd1306.c
  * @copyright  Copyright (C) 2019 ITRVN. All rights reserved.
@@ -17,10 +16,10 @@
 #include "drv_ssd1306.h"
 
 #include <math.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "bsp_timer.h"
-
 
 /* Private defines ---------------------------------------------------- */
 
@@ -162,11 +161,6 @@ drv_ssd1306_error_t drv_ssd1306_set_cursor(uint8_t x, uint8_t y)
   ssd1306.current_x = x;
   ssd1306.current_y = y;
 
-  if (x >= SSD1306_WIDTH || y >= SSD1306_HEIGHT)
-  {
-    return DRV_SSD1306_ERR;
-  }
-
   return DRV_SSD1306_OK;
 }
 
@@ -190,13 +184,41 @@ drv_ssd1306_error_t drv_ssd1306_draw_pixel(uint8_t x, uint8_t y, drv_ssd1306_col
   return DRV_SSD1306_OK;
 }
 
-char drv_ssd1306_write_char(char ch, drv_ssd1306_font_t font, drv_ssd1306_color_t color)
+char drv_ssd1306_write_char(char ch, drv_ssd1306_font_t font, drv_ssd1306_color_t color,
+                            uint8_t char_overflow_flag)
 {
   uint32_t i, b, j;
 
   // Check if character is valid
   if (ch < 32 || ch > 126)
     return DRV_SSD1306_ERR;
+
+  // Limit the amount of characters on the screen
+  switch (char_overflow_flag)
+  {
+    case 0:
+      // Nothing happen
+      break;
+
+    case 1:
+      if (128 < (ssd1306.current_x + font.width) || SSD1306_HEIGHT < (ssd1306.current_y + font.height))
+      {
+        // Not enough space on current line
+        return 0;
+      }
+      break;
+
+    case 2:
+      if (90 < (ssd1306.current_x + font.width) || SSD1306_HEIGHT < (ssd1306.current_y + font.height))
+      {
+        // Not enough space on current line
+        return 0;
+      }
+      break;
+
+    default:
+      break;
+  }
 
   // Check remaining space on current line
   if (SSD1306_WIDTH < (ssd1306.current_x + font.width) || SSD1306_HEIGHT < (ssd1306.current_y + font.height))
@@ -229,11 +251,12 @@ char drv_ssd1306_write_char(char ch, drv_ssd1306_font_t font, drv_ssd1306_color_
   return ch;
 }
 
-char drv_ssd1306_write_string(char *str, drv_ssd1306_font_t font, drv_ssd1306_color_t color)
+char drv_ssd1306_write_string(const char *str, drv_ssd1306_font_t font, drv_ssd1306_color_t color,
+                              uint8_t char_overflow_flag)
 {
   while (*str)
   {
-    if (drv_ssd1306_write_char(*str, font, color) != *str)
+    if (drv_ssd1306_write_char(*str, font, color, char_overflow_flag) != *str)
     {
       // Char could not be written
       return DRV_SSD1306_ERR;

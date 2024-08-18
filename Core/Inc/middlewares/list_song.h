@@ -3,14 +3,15 @@
  * @copyright  Copyright (C) 2019 ITRVN. All rights reserved.
  * @license    This project is released under the Fiot License.
  * @version    1.0.0
- * @date       2024-08-05
- * @author     Toan Nguyen
+ * @date       2024-08-12
+ * @author     Tuan Nguyen
  *
- * @brief      Header file for list_song
+ * @brief      Header file for song list management
  *
- * @note       None
+ * @note       This file contains the definitions and function prototypes for managing a list of songs.
  * @example    None
  */
+
 /* Define to prevent recursive inclusion ------------------------------ */
 #ifndef __LIST_SONG_H
 #define __LIST_SONG_H
@@ -20,8 +21,7 @@
 #include "stdint.h"
 
 /* Public defines ----------------------------------------------------- */
-
-// Macros to define song titles and authors
+/* Song titles and authors */
 #define SONG_1_TITLE       "Short_Ghe_qua"
 #define SONG_1_AUTHOR      "Kim_Xuan_cover"
 
@@ -52,14 +52,18 @@
 #define SONG_10_TITLE      "Full_Dung_lam_trai_tim_anh_dau"
 #define SONG_10_AUTHOR     "Son_Tung"
 
-#define LIST_SONG_QUANTITY 10
-/* Public enumerate/structure ----------------------------------------- */
+#define LIST_SONG_QUANTITY 10 /*!< Number of songs in the list */
 
+/* Public enumerate/structure ----------------------------------------- */
+/**
+ * @brief Structure to access song information
+ */
 typedef struct
 {
-  char *song_name;
-  char *author_name;
+  const char *song_name;   /*!< Name of the song */
+  const char *author_name; /*!< Name of the author */
 } song_info_struct_t;
+
 /* Public macros ------------------------------------------------------ */
 
 /* Public variables --------------------------------------------------- */
@@ -67,35 +71,27 @@ typedef struct
 /* Public function prototypes ----------------------------------------- */
 
 /**
- * @brief  Get the number of songs.
+ * @brief  Get the number of songs
  *
- * @attention   This function returns the total number of songs available.
- *
- * @return      The number of songs.
+ * @return Number of songs in the list
  */
 uint8_t get_list_song_size(void);
 
 /**
- * @brief  Get the song name information by index.
+ * @brief  Get song information by index
  *
- * @param[in]   index    The index of the song.
- *
- * @attention   This function retrieves the song name information based on the provided index.
- *
- * @return      The song name information.
+ * @param[in]  index  Index of the song
+ * @return     Pointer to the song name, or NULL if index is out of range
  */
-char *get_song_name_info(uint8_t index);
+const char *get_song_name_info(uint8_t index);
 
 /**
- * @brief  Get the author name information by index.
+ * @brief  Get author information by index
  *
- * @param[in]   index    The index of the song.
- *
- * @attention   This function retrieves the author name information based on the provided index.
- *
- * @return      The author name information.
+ * @param[in]  index  Index of the song
+ * @return     Pointer to the author name, or NULL if index is out of range
  */
-char *get_author_name_info(uint8_t index);
+const char *get_author_name_info(uint8_t index);
 
 #endif /* __LIST_SONG_H */
 

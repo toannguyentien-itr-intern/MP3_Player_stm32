@@ -213,14 +213,17 @@ drv_ssd1306_error_t drv_ssd1306_draw_pixel(uint8_t x, uint8_t y, drv_ssd1306_col
  *  - DRV_SSD1306_ERR: Error (invalid character or not enough space)
  *  - ch: Success (written character)
  */
-char drv_ssd1306_write_char(char ch, drv_ssd1306_font_t font, drv_ssd1306_color_t color);
+char drv_ssd1306_write_char(char ch, drv_ssd1306_font_t font, drv_ssd1306_color_t color,
+                            uint8_t char_overflow_flag);
 
 /**
  * @brief  Write a string on the SSD1306 display.
  *
- * @param[in]     str      The string to write.
- * @param[in]     font     The font to use for the string.
- * @param[in]     color    The color of the string (WHITE or BLACK).
+ * @param[in]     str                 The string to write.
+ * @param[in]     font                The font to use for the string.
+ * @param[in]     color               The color of the string (WHITE or BLACK).
+ * @param[in]     char_overflow_flag  Character not fit on the screen, 0: No, 1: overflow at playlist state
+ * state, 2: overflow at music player
  *
  * @attention  This function writes each character of the string using the ssd1306_write_char function.
  *
@@ -228,7 +231,8 @@ char drv_ssd1306_write_char(char ch, drv_ssd1306_font_t font, drv_ssd1306_color_
  *  - DRV_SSD1306_ERR: Error (character could not be written)
  *  - *str: Success (written character)
  */
-char drv_ssd1306_write_string(char *str, drv_ssd1306_font_t font, drv_ssd1306_color_t color);
+char drv_ssd1306_write_string(const char *str, drv_ssd1306_font_t font, drv_ssd1306_color_t color,
+                              uint8_t char_overflow_flag);
 
 /**
  * @brief  Draw a line on the SSD1306 display.

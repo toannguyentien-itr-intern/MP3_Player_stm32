@@ -22,7 +22,7 @@
 #include "stm32f4xx_hal.h"
 
 /* Public defines ----------------------------------------------------- */
-#define BSP_I2C_TIMEOUT  1000
+#define BSP_I2C_TIMEOUT 1000
 /* Public enumerate/structure ----------------------------------------- */
 
 /* Public macros ------------------------------------------------------ */

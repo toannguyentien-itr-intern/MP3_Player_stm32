@@ -15,9 +15,11 @@
 /* Includes ----------------------------------------------------------- */
 #include "draw_ui_icons.h"
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
 
+#include "bsp_timer.h"
 #include "list_song.h"
 
 /* Private defines ---------------------------------------------------- */
@@ -125,7 +127,7 @@ const unsigned char pause_button_32x32[] = {
 0x38, 0x00, 0x00, 0x1C, 0x1C, 0x00, 0x00, 0x38, 0x0E, 0x00, 0x00, 0x70, 0x07, 0x00, 0x00, 0xE0,
 0x03, 0x80, 0x01, 0xC0, 0x01, 0xF0, 0x0F, 0x80, 0x00, 0x7F, 0xFE, 0x00, 0x00, 0x0F, 0xF0, 0x00};
 
-const unsigned char loop_button_32x32[] = {
+const unsigned char repeat_button_32x32[] = {
 0x00, 0x0F, 0xF0, 0x00, 0x00, 0x7F, 0xFE, 0x00, 0x01, 0xF0, 0x0F, 0x80, 0x03, 0x80, 0x01, 0xC0,
 0x07, 0x00, 0x00, 0xE0, 0x0E, 0x00, 0x00, 0x70, 0x1C, 0x00, 0x00, 0x38, 0x38, 0x00, 0x00, 0x1C,
 0x30, 0x00, 0x00, 0x0C, 0x60, 0x00, 0x0C, 0x06, 0x60, 0x00, 0x0E, 0x06, 0x60, 0x7F, 0xFF, 0x06,
@@ -155,23 +157,26 @@ const unsigned char once_button_32x32[] = {
 0x38, 0x00, 0x00, 0x1C, 0x1C, 0x00, 0x00, 0x38, 0x0E, 0x00, 0x00, 0x70, 0x07, 0x00, 0x00, 0xE0,
 0x03, 0x80, 0x01, 0xC0, 0x01, 0xF0, 0x0F, 0x80, 0x00, 0x7F, 0xFE, 0x00, 0x00, 0x0F, 0xF0, 0x00};
 
-const unsigned char riot_icon_64x32[] = {
-0x00, 0x00, 0x00, 0x1F, 0xF8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x1F, 0xFF, 0xFF, 0xF8, 0x00, 0x00, 0x00, 0x01,
-0xFF, 0xFF, 0xFF, 0xFF, 0x80, 0x00, 0x00, 0x07, 0xFF, 0xFF, 0xFF, 0xFF, 0xE0, 0x00, 0x00, 0x3F, 0xFF, 0xFF,
-0xFF, 0xFF, 0xFC, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x01, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-0xFF, 0x80, 0x07, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xE0, 0x0F, 0xFF, 0xFF, 0xFC, 0x03, 0xFF, 0xFF, 0xF0,
-0x1F, 0xFF, 0xFF, 0x80, 0x00, 0x03, 0xFF, 0xF8, 0x3F, 0xFF, 0xF8, 0x00, 0x00, 0x00, 0xFF, 0xFC, 0x7F, 0xFF,
-0x80, 0x00, 0x00, 0x00, 0xFF, 0xFE, 0x7F, 0xF8, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFE, 0x7F, 0xFC, 0x00, 0x00,
-0x02, 0x00, 0xFF, 0xFE, 0xFF, 0xFC, 0x00, 0x00, 0x02, 0x00, 0xFF, 0xFF, 0xFF, 0xFE, 0x00, 0x02, 0x01, 0x00,
-0xFF, 0xFF, 0xFF, 0xFE, 0x04, 0x02, 0x01, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0x06, 0x03, 0x01, 0x80, 0xFF, 0xFF,
-0x7F, 0xFF, 0x02, 0x03, 0x01, 0x80, 0xFF, 0xFE, 0x7F, 0xFF, 0x82, 0x03, 0x01, 0x80, 0xFF, 0xFE, 0x7F, 0xFF,
-0xC3, 0x01, 0x81, 0xFF, 0xFF, 0xFE, 0x3F, 0xFF, 0xC3, 0xFF, 0xF8, 0x00, 0xFF, 0xFC, 0x1F, 0xFF, 0xFF, 0xFF,
-0x80, 0x00, 0xFF, 0xF8, 0x0F, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0xFF, 0xF0, 0x07, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-0xFF, 0xE0, 0x01, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x80, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
-0x00, 0x3F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFC, 0x00, 0x00, 0x07, 0xFF, 0xFF, 0xFF, 0xFF, 0xE0, 0x00, 0x00, 0x01,
-0xFF, 0xFF, 0xFF, 0xFF, 0x80, 0x00, 0x00, 0x00, 0x1F, 0xFF, 0xFF, 0xF8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x1F,
-0xF8, 0x00, 0x00, 0x00};
+const unsigned char music_note_icon_64x32 [] = {
+0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x3C, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x3F, 0xFC,
+0x00, 0x00, 0x00, 0x00, 0x00, 0x3F, 0xFF, 0xFC, 0x00, 0x00, 0x00, 0x00, 0x3F, 0xFF, 0xFF, 0xFC,
+0x00, 0x00, 0x00, 0x3F, 0xFF, 0xFF, 0xFF, 0xFC, 0x00, 0x00, 0x07, 0xFF, 0xFF, 0xFF, 0xFF, 0xFC,
+0x00, 0x00, 0x07, 0xFF, 0xFF, 0xFF, 0xFF, 0xFC, 0x00, 0x00, 0x07, 0xFF, 0xFF, 0xFF, 0xFF, 0xFC,
+0x00, 0x00, 0x07, 0xFF, 0xFF, 0xFF, 0xFF, 0xBC, 0x00, 0x00, 0x07, 0xFF, 0xFF, 0xFF, 0xC0, 0x3C,
+0x00, 0x00, 0x07, 0xFF, 0xFF, 0xC0, 0x00, 0x3C, 0x00, 0x00, 0x07, 0xFF, 0xC0, 0x00, 0x00, 0x3C,
+0x00, 0x00, 0x07, 0xC0, 0x00, 0x00, 0x00, 0x3C, 0x00, 0x00, 0x07, 0x80, 0x00, 0x00, 0x00, 0x3C,
+0x00, 0x00, 0x07, 0x80, 0x00, 0x00, 0x00, 0x3C, 0x00, 0x00, 0x07, 0x80, 0x00, 0x00, 0x00, 0x3C,
+0x00, 0x00, 0x07, 0x80, 0x00, 0x01, 0xFC, 0x3C, 0x00, 0x00, 0x07, 0x80, 0x00, 0x0F, 0xFF, 0xBC,
+0x00, 0x00, 0x07, 0x80, 0x00, 0x3F, 0xFF, 0xFC, 0x00, 0x00, 0x07, 0x80, 0x00, 0xFF, 0xFF, 0xFC,
+0x00, 0x00, 0x07, 0x80, 0x00, 0xFF, 0xFF, 0xFC, 0x00, 0xFF, 0xE7, 0x80, 0x01, 0xFF, 0xFF, 0xFC,
+0x07, 0xFF, 0xFF, 0x80, 0x01, 0xFF, 0xFF, 0xFC, 0x0F, 0xFF, 0xFF, 0x80, 0x00, 0xFF, 0xFF, 0xF8,
+0x1F, 0xFF, 0xFF, 0x80, 0x00, 0x7F, 0xFF, 0xF0, 0x3F, 0xFF, 0xFF, 0x80, 0x00, 0x3F, 0xFF, 0xE0,
+0x3F, 0xFF, 0xFF, 0x80, 0x00, 0x0F, 0xFF, 0x80, 0x3F, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
+0x1F, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0F, 0xFF, 0xFE, 0x00, 0x00, 0x00, 0x00, 0x00,
+0x03, 0xFF, 0xF8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x7F, 0xC0, 0x00, 0x00, 0x00, 0x00, 0x00
+};
 
+static volatile bool scroll_flag = false;
 /* Private function prototypes ---------------------------------------- */
 
 /* Function definitions ----------------------------------------------- */
@@ -182,65 +187,123 @@ void ssd1306_starting_screen(void)
   drv_ssd1306_update_screen();
 }
 
-void ssd1306_playlist_menu(uint16_t song_id)
+void ssd1306_playlist_menu(uint16_t song_id, int volume)
 {
-  char *song1, song2, song3;
-  if (song_id >= 0 && song_id <= 2)
-  {
-    song1 = get_song_name_info(0);
-    song2 = get_song_name_info(1);
-    song3 = get_song_name_info(2);
-  }
+  const char* song_name1 = get_song_name_info(song_id % 10);
+  const char* song_name2 = get_song_name_info((song_id + 1) % 10);
+  const char* song_name3 = get_song_name_info((song_id + 2) % 10);
+  char volume_str[4];
+  sprintf(volume_str, "%u", ((volume * 100) / 31));
   drv_ssd1306_fill(DRV_SSD1306_COLOR_BLACK);
   drv_ssd1306_draw_bitmap(0, 0, playlist_24x24, 24, 24, DRV_SSD1306_COLOR_WHITE);
   drv_ssd1306_set_cursor(36, 12);
-  drv_ssd1306_write_string("Playlist", font_6x8, DRV_SSD1306_COLOR_WHITE);
+  drv_ssd1306_write_string("Playlist", font_6x8, DRV_SSD1306_COLOR_WHITE, 0);
   drv_ssd1306_line(0, 28, 127, 28, DRV_SSD1306_COLOR_WHITE);
   drv_ssd1306_line(24, 28, 24, 63, DRV_SSD1306_COLOR_WHITE);
   drv_ssd1306_draw_arrow(10, 35, 20, 35, 10, DRV_SSD1306_COLOR_WHITE);
   drv_ssd1306_set_cursor(28, 32);
-  drv_ssd1306_write_string(song1, font_6x8, DRV_SSD1306_COLOR_WHITE);
+  drv_ssd1306_write_string(song_name1, font_6x8, DRV_SSD1306_COLOR_WHITE, false);  // Display first song
   drv_ssd1306_set_cursor(28, 42);
-  // drv_ssd1306_write_string(song2, font_6x8, DRV_SSD1306_COLOR_WHITE);
-  //  drv_ssd1306_set_cursor(28, 52);
-  //  drv_ssd1306_write_string(song3, font_6x8, DRV_SSD1306_COLOR_WHITE);
-  drv_ssd1306_update_screen();
-  // drv_ssd1306_draw_arrow(10, 35, 20, 35, 10, DRV_SSD1306_COLOR_BLACK);
-  // drv_ssd1306_draw_arrow(10, 45, 20, 45, 10, DRV_SSD1306_COLOR_WHITE);
-  // drv_ssd1306_update_screen();
-  // drv_ssd1306_draw_arrow(10, 45, 20, 45, 10, DRV_SSD1306_COLOR_BLACK);
-  // drv_ssd1306_draw_arrow(10, 55, 20, 55, 10, DRV_SSD1306_COLOR_WHITE);
-  // ssd1306_ScrollString(song1, 28, 32, font_6x8, White, 0);
+  drv_ssd1306_write_string(song_name2, font_6x8, DRV_SSD1306_COLOR_WHITE, false);  // Display second song
+  drv_ssd1306_set_cursor(28, 52);
+  drv_ssd1306_write_string(song_name3, font_6x8, DRV_SSD1306_COLOR_WHITE, false);  // Display third song
+  drv_ssd1306_set_cursor(105, 5);
+  drv_ssd1306_write_string(volume_str, font_7x10, DRV_SSD1306_COLOR_WHITE, false); // Display Volume
+  //ssd1306_scroll_string(song_name1, 28, 32, font_6x8, DRV_SSD1306_COLOR_WHITE, 1);
+
   drv_ssd1306_update_screen();
 }
 
-void ssd1306_music_player_menu(uint16_t song_id)
+void ssd1306_music_player_menu_default(uint16_t song_id, uint8_t playback_state, uint8_t play_mode_state)
 {
+  const char* song_name = get_song_name_info(song_id);
   drv_ssd1306_fill(DRV_SSD1306_COLOR_BLACK);
   drv_ssd1306_line(90, 0, 90, 64, DRV_SSD1306_COLOR_WHITE);
   drv_ssd1306_line(0, 48, 90, 48, DRV_SSD1306_COLOR_WHITE);
-  drv_ssd1306_draw_bitmap(12, 0, riot_icon_64x32, 64, 32, DRV_SSD1306_COLOR_WHITE);
-  drv_ssd1306_draw_bitmap(95, 0, play_button_32x32, 32, 32, DRV_SSD1306_COLOR_WHITE);
-  drv_ssd1306_draw_bitmap(95, 32, once_button_32x32, 32, 32, DRV_SSD1306_COLOR_WHITE);
+  drv_ssd1306_draw_bitmap(8, 4, music_note_icon_64x32, 64, 32, DRV_SSD1306_COLOR_WHITE);
+  ssd1306_draw_menu_button_fsm(playback_state, play_mode_state);
+  drv_ssd1306_set_cursor(0, 50);
+  drv_ssd1306_write_string(song_name, font_6x8, DRV_SSD1306_COLOR_WHITE, 2);
   drv_ssd1306_update_screen();
-  char* song1 = get_song_name_info(song_id);
-  HAL_Delay(1000);
-  ssd1306_select(95, 0, 14, DRV_SSD1306_COLOR_WHITE, play_button_32x32, 32, 32);
-  HAL_Delay(1000);
-  ssd1306_deselect(95, 0, 14, DRV_SSD1306_COLOR_WHITE, play_button_32x32, 32, 32);
-  ssd1306_icon_transition(95, 0, pause_button_32x32, 32, 32, DRV_SSD1306_COLOR_WHITE);
-  HAL_Delay(1000);
+}
+
+void ssd1306_music_player_menu_title(uint16_t song_id, int volume)
+{
+  const char* song_name = get_song_name_info(song_id);
+  char volume_str[4];
+  sprintf(volume_str, "%u", ((volume * 100) / 31));
+  drv_ssd1306_fill_rectangle(75, 38, 88, 46, DRV_SSD1306_COLOR_BLACK);
+  drv_ssd1306_set_cursor(68, 38);
+  drv_ssd1306_write_string(volume_str, font_7x10, DRV_SSD1306_COLOR_WHITE, false); // Display volume
+  ssd1306_scroll_string(song_name, 0, 50, font_6x8, DRV_SSD1306_COLOR_WHITE, 2);   // Display title
+  drv_ssd1306_update_screen();
+}
+
+void ssd1306_music_player_menu_play(void)
+{
   ssd1306_icon_transition(95, 0, play_button_32x32, 32, 32, DRV_SSD1306_COLOR_WHITE);
-  HAL_Delay(1000);
-  ssd1306_icon_transition(95, 32, loop_button_32x32, 32, 32, DRV_SSD1306_COLOR_WHITE);
-  HAL_Delay(1000);
-  ssd1306_icon_transition(95, 32, shuffle_button_32x32, 32, 32, DRV_SSD1306_COLOR_WHITE);
-  HAL_Delay(1000);
+  ssd1306_select(95, 0, 14, DRV_SSD1306_COLOR_WHITE, play_button_32x32, 32, 32);
+  drv_ssd1306_update_screen();
+}
+
+void ssd1306_music_player_menu_pause(void)
+{
+  ssd1306_icon_transition(95, 0, pause_button_32x32, 32, 32, DRV_SSD1306_COLOR_WHITE);
+  ssd1306_select(95, 0, 14, DRV_SSD1306_COLOR_WHITE, pause_button_32x32, 32, 32);
+  drv_ssd1306_update_screen();
+}
+
+void ssd1306_music_player_menu_once(void)
+{
   ssd1306_icon_transition(95, 32, once_button_32x32, 32, 32, DRV_SSD1306_COLOR_WHITE);
-  // ssd1306_FillRectangle(95, 0, (95 + 32), 32, Black);
-  // ssd1306_DrawBitmap(95, 0, pause_button_32x32, 32, 32, White);
-  // ssd1306_UpdateScreen();
-  // ssd1306_ScrollString(song1, 0, 50, Font_6x8, White, 1);
+  ssd1306_select(95, 32, 14, DRV_SSD1306_COLOR_WHITE, once_button_32x32, 32, 32);
+  drv_ssd1306_update_screen();
+}
+void ssd1306_music_player_menu_repeat(void)
+{
+  ssd1306_icon_transition(95, 32, repeat_button_32x32, 32, 32, DRV_SSD1306_COLOR_WHITE);
+  ssd1306_select(95, 32, 14, DRV_SSD1306_COLOR_WHITE, repeat_button_32x32, 32, 32);
+  drv_ssd1306_update_screen();
+}
+void ssd1306_music_player_menu_randomize(void)
+{
+  ssd1306_icon_transition(95, 32, shuffle_button_32x32, 32, 32, DRV_SSD1306_COLOR_WHITE);
+  ssd1306_select(95, 32, 14, DRV_SSD1306_COLOR_WHITE, shuffle_button_32x32, 32, 32);
+  drv_ssd1306_update_screen();
+}
+
+void ssd1306_draw_menu_button_fsm(uint8_t playback_state, uint8_t play_mode_state)
+{
+  switch (playback_state)
+  {
+    case 0:
+      drv_ssd1306_draw_bitmap(95, 0, pause_button_32x32, 32, 32, DRV_SSD1306_COLOR_WHITE);
+      break;
+    case 1:
+      drv_ssd1306_draw_bitmap(95, 0, play_button_32x32, 32, 32, DRV_SSD1306_COLOR_WHITE);
+      break;
+    case 99:
+      break;
+    default:
+      break;
+  }
+  switch (play_mode_state)
+  {
+    case 0:
+      drv_ssd1306_draw_bitmap(95, 32, once_button_32x32, 32, 32, DRV_SSD1306_COLOR_WHITE);
+      break;
+    case 1:
+      drv_ssd1306_draw_bitmap(95, 32, repeat_button_32x32, 32, 32, DRV_SSD1306_COLOR_WHITE);
+      break;
+    case 2:
+      drv_ssd1306_draw_bitmap(95, 32, shuffle_button_32x32, 32, 32, DRV_SSD1306_COLOR_WHITE);
+      break;
+    case 99:
+      break;
+    default:
+      break;
+  }
+  drv_ssd1306_update_screen();
 }
 
 void ssd1306_select(uint8_t x, uint8_t y, uint8_t rad, drv_ssd1306_color_t color, const unsigned char* bitmap,
@@ -270,6 +333,40 @@ void ssd1306_deselect(uint8_t x, uint8_t y, uint8_t rad, drv_ssd1306_color_t col
   drv_ssd1306_update_screen();
 }
 
+void ssd1306_deselect_fsm(uint8_t playback_state, uint8_t play_mode_state)
+{
+  switch (playback_state)
+  {
+    case 0:
+      ssd1306_deselect(95, 0, 14, DRV_SSD1306_COLOR_WHITE, pause_button_32x32, 32, 32);
+      break;
+    case 1:
+      ssd1306_deselect(95, 0, 14, DRV_SSD1306_COLOR_WHITE, play_button_32x32, 32, 32);
+      break;
+    case 99:
+      break;
+    default:
+      break;
+  }
+  switch (play_mode_state)
+  {
+    case 0:
+      ssd1306_deselect(95, 32, 14, DRV_SSD1306_COLOR_WHITE, once_button_32x32, 32, 32);
+      break;
+    case 1:
+      ssd1306_deselect(95, 32, 14, DRV_SSD1306_COLOR_WHITE, repeat_button_32x32, 32, 32);
+      break;
+    case 2:
+      ssd1306_deselect(95, 32, 14, DRV_SSD1306_COLOR_WHITE, shuffle_button_32x32, 32, 32);
+      break;
+    case 99:
+      break;
+    default:
+      break;
+  }
+  drv_ssd1306_update_screen();
+}
+
 void ssd1306_icon_transition(uint8_t x, uint8_t y, const unsigned char* bitmap, uint8_t w, uint8_t h,
                              drv_ssd1306_color_t color)
 {
@@ -282,5 +379,49 @@ void ssd1306_icon_transition(uint8_t x, uint8_t y, const unsigned char* bitmap, 
   drv_ssd1306_draw_bitmap(x, y, bitmap, w, h, color);
   drv_ssd1306_update_screen();
 }
+
+void ssd1306_scroll_string(const char* str, uint8_t x, uint8_t y, drv_ssd1306_font_t font,
+                           drv_ssd1306_color_t color, uint8_t screen_state)
+{
+  int  len = strlen(str);
+  char buffer[128];  // Fixed-size buffer
+
+  if (len > 118)
+  {          // Check if string is too long for buffer
+    return;  // If so, return without doing anything
+  }
+
+  strcpy(buffer, str);   // Copy original string to buffer
+  strcat(buffer, "  ");  // Add 2 spaces at the end
+
+  // Loop while scroll_flag is active
+  while (ssd1306_get_scroll_flag())
+  {
+    for (int i = 0; i < len + 2; i++)
+    {
+      drv_ssd1306_set_cursor(x, y);  // Reset cursor to the beginning
+      // Write up to 21 characters
+      for (int j = 0; j < 21 && buffer[i + j] != '\0'; j++)
+      {
+        // If not scrolling, redraw the title at music player state
+        if (!ssd1306_get_scroll_flag())
+        {
+          if (screen_state == 2)
+          {
+            drv_ssd1306_fill_rectangle(x, y, x + 15, y + 15, DRV_SSD1306_COLOR_BLACK);
+            drv_ssd1306_write_string(str, font_6x8, DRV_SSD1306_COLOR_WHITE, 2);
+          }
+          return;
+        }
+        drv_ssd1306_write_char(buffer[i + j], font, color, screen_state);
+      }
+      drv_ssd1306_update_screen();  // Update the screen
+    }
+  }
+}
+
+bool ssd1306_get_scroll_flag(void) { return scroll_flag; }
+
+void ssd1306_set_scroll_flag(bool status) { scroll_flag = status; }
 /* Private definitions ----------------------------------------------- */
 /* End of file -------------------------------------------------------- */
